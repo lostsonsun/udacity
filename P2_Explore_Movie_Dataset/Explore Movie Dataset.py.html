@@ -87,8 +87,8 @@ movie_data.describe()
 
 
 #用clean_md来保存清理完成的数据
-clean_md = movie_data.dropna()
-clean_md
+clean_md = movie_data.replace([None], 'Unknown')
+clean_md.info()
 
 
 # ---
@@ -191,7 +191,7 @@ sb.barplot(y = most_popular_movies['original_title'], x = most_popular_movies['p
 #求出利润，单位换算为百万
 profit = (clean_md['revenue'] -  clean_md['budget'])/(10 ** 6)
 
-plt.figure(figsize = [10, 5])
+plt.figure(figsize = [15, 5])
 
 sb.violinplot(data = clean_md, x = 'release_year', y = profit, color = base_color, inner = None)
 plt.xticks(rotation = 90)
@@ -211,14 +211,14 @@ average_budget = clean_md.groupby(['release_year']).budget.agg('mean')
 average_profit = (average_revenue - average_budget) / (10 ** 6)
 
 #画出净利润的平均值与年份的折线图
-plt.figure(figsize = [10, 5])
+plt.figure(figsize = [15, 5])
 sb.pointplot(x = average_profit.index, y = average_profit)
 plt.xticks(rotation = 90)
 plt.ylabel('profit (million)')
 
 
 # 分析：
-# 从上面的折线图可以看出，电影的净利润在1970年代到1980年代，电影票房平均净利润处在第一个高峰期。但是这段高峰期期间很不稳定，有大起大落。第二个高峰期是在1989到2004年期间，这段高峰期比第一个高峰期稳定，没有特别多的大起大落。最后从2005年开始到2015年，电影净利润在平均5000万到1亿左右稳定慢速地增长。
+# 从上面的折线图可以看出，电影净利润的平均值整体趋势一直在上升。从1960年代开始缓慢上升到1995年初达到最高峰，之后稍微下降了一点点，从1995年到2015年之间，都稳定在了2500万美金到3000万美金之间。1977年，电影净利润的平均值在缓慢上升的趋势里有一次高光表现，达到了3500万，可谓是一个电影黄金年。
 
 # ---
 # 
